@@ -1,0 +1,33 @@
+{
+  "name": "graphzep-server",
+  "version": "1.0.0",
+  "description": "GraphZep knowledge graph server using Hono",
+  "main": "dist/standalone-main.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/standalone-main.js",
+    "dev": "tsx watch src/standalone-main.ts",
+    "test": "node --test dist/test/**/*.test.js",
+    "test:dev": "tsx --test src/test/**/*.test.ts",
+    "lint": "eslint src/",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "hono": "^4.6.11",
+    "@hono/node-server": "^1.13.7",
+    "@hono/zod-validator": "^0.4.1",
+    "zod": "^3.23.8",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2",
+    "tsx": "^4.19.2",
+    "eslint": "^9.18.0",
+    "prettier": "^3.4.2",
+    "@eslint/js": "^9.18.0",
+    "@types/eslint__js": "^8.42.3",
+    "typescript-eslint": "^8.18.2"
+  }
+}

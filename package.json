@@ -1,0 +1,78 @@
+{
+  "name": "graphzep",
+  "version": "0.0.4",
+  "description": "GraphZep: A temporal knowledge graph memory system for AI agents based on the Zep paper",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:clean": "npm run clean && npm run build",
+    "dev": "tsc --watch",
+    "test": "npm run build && node --test 'dist/test/**/*.test.js'",
+    "test:watch": "npm run build && node --test --watch 'dist/test/**/*.test.js'",
+    "test:coverage": "npm run build && node --experimental-test-coverage --test 'dist/test/**/*.test.js'",
+    "test:integration": "npm run build && NEO4J_URI=${NEO4J_URI:-bolt://localhost:7687} NEO4J_USERNAME=${NEO4J_USERNAME:-neo4j} NEO4J_PASSWORD=${NEO4J_PASSWORD:-password} node --test 'dist/test/integration/**/*.test.js'",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write 'src/**/*.ts'",
+    "format:check": "prettier --check 'src/**/*.ts'",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "graph",
+    "temporal",
+    "knowledge-graph",
+    "memory",
+    "zep",
+    "ai",
+    "llm",
+    "agent",
+    "typescript"
+  ],
+  "author": {
+    "name": "Bhanu Pratap Chaudhary",
+    "email": "dev@bhanu.io"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bhanuc/graphzep"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.0",
+    "@google/generative-ai": "^0.21.0",
+    "@opensearch-project/opensearch": "^2.12.0",
+    "aws-sdk": "^2.1600.0",
+    "dotenv": "^16.4.5",
+    "redis": "^4.7.0",
+    "groq-sdk": "^0.7.0",
+    "neo4j-driver": "^5.26.0",
+    "openai": "^4.73.0",
+    "posthog-node": "^4.0.0",
+    "uuid": "^10.0.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/uuid": "^10.0.0",
+    "@eslint/js": "^9.0.0",
+    "typescript-eslint": "^8.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.4.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

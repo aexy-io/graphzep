@@ -1,0 +1,39 @@
+{
+  "name": "graphzep-examples",
+  "version": "1.0.0",
+  "description": "TypeScript examples for GraphZep knowledge graph framework",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "zep-poc": "cd zep-poc && npm run start",
+    "quickstart:neo4j": "tsx quickstart/quickstart-neo4j.ts",
+    "quickstart:falkordb": "tsx quickstart/quickstart-falkordb.ts",
+    "quickstart:neptune": "tsx quickstart/quickstart-neptune.ts",
+    "ecommerce": "tsx ecommerce/runner.ts",
+    "podcast": "tsx podcast/podcast-runner.ts",
+    "langgraph-agent": "tsx langgraph-agent/agent.ts",
+    "langgraph-agent:new": "tsx langgraph-agent/langgraph-agent.ts",
+    "chat-agent": "tsx chat-agent/agent.ts",
+    "dev": "tsx watch",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "graphzep": "file:../",
+    "@langchain/langgraph": "^0.2.39",
+    "@langchain/core": "^0.3.27",
+    "@langchain/openai": "^0.3.17",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2",
+    "tsx": "^4.19.2",
+    "eslint": "^9.18.0",
+    "prettier": "^3.4.2",
+    "@eslint/js": "^9.18.0",
+    "@types/eslint__js": "^8.42.3",
+    "typescript-eslint": "^8.18.2"
+  }
+}

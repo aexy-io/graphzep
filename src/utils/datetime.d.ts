@@ -1,0 +1,10 @@
+export declare function utcNow(): Date;
+export declare function parseDbDate(dateStr: string | Date | null | undefined): Date | null;
+export declare function formatDateForDb(date: Date): string;
+export declare function addDays(date: Date, days: number): Date;
+export declare function subtractDays(date: Date, days: number): Date;
+export declare function isBefore(date1: Date, date2: Date): boolean;
+export declare function isAfter(date1: Date, date2: Date): boolean;
+export declare function isSameDay(date1: Date, date2: Date): boolean;
+export declare function startOfDay(date: Date): Date;
+export declare function endOfDay(date: Date): Date;

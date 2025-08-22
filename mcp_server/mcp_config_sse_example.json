@@ -1,0 +1,8 @@
+{
+    "mcpServers": {
+        "graphzep": {
+            "transport": "sse",
+            "url": "http://localhost:8000/sse"
+        }
+    }
+}

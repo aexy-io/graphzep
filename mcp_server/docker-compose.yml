@@ -1,0 +1,55 @@
+services:
+  neo4j:
+    image: neo4j:5.26.0
+    ports:
+      - "7474:7474" # HTTP
+      - "7687:7687" # Bolt
+    environment:
+      - NEO4J_AUTH=${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-demodemo}
+      - NEO4J_server_memory_heap_initial__size=512m
+      - NEO4J_server_memory_heap_max__size=1G
+      - NEO4J_server_memory_pagecache_size=512m
+      - NEO4J_PLUGINS=["apoc"]
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u ${NEO4J_USER:-neo4j} -p ${NEO4J_PASSWORD:-demodemo} 'RETURN 1' || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    networks:
+      - mcp-network
+
+  graphzep-mcp:
+    build:
+      context: ..
+      dockerfile: mcp_server/Dockerfile
+    env_file:
+      - path: .env
+        required: false # Makes the file optional
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    environment:
+      - NEO4J_URI=${NEO4J_URI:-bolt://neo4j:7687}
+      - NEO4J_USER=${NEO4J_USER:-neo4j}
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD:-demodemo}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MODEL_NAME=${MODEL_NAME}
+      - SEMAPHORE_LIMIT=${SEMAPHORE_LIMIT:-10}
+      - PORT=3001
+      - NODE_ENV=production
+    ports:
+      - "3001:3001" # Expose the TypeScript MCP server
+    networks:
+      - mcp-network
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+
+networks:
+  mcp-network:
+    driver: bridge

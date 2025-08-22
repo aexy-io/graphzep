@@ -1,0 +1,18 @@
+{
+  "name": "zep-poc-example",
+  "version": "1.0.0",
+  "description": "Zep Memory System POC using GraphZep",
+  "type": "module",
+  "scripts": {
+    "start": "tsx index.ts",
+    "dev": "tsx watch index.ts"
+  },
+  "dependencies": {
+    "graphzep": "file:../..",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
