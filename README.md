@@ -4,7 +4,7 @@ A TypeScript implementation of the Zep temporal knowledge graph memory system fo
 
 Based and inspired from python's Graphiti framework enhanced with Zep memory capabilities.
 
-[![Tests](https://img.shields.io/badge/Tests-91_Passing-brightgreen)](https://github.com/bhanuc/graphzep)
+[![Tests](https://img.shields.io/badge/Tests-91_Passing-brightgreen)](https://github.com/aexy-io/graphzep)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -534,7 +534,7 @@ This TypeScript version maintains **100% API compatibility** with the original P
 
 ```bash
 # Clone and configure
-git clone https://github.com/bhanuc/graphzep.git
+git clone https://github.com/aexy-io/graphzep.git
 cd graphzep
 cp .env.docker.example .env
 # Edit .env with your settings
@@ -585,7 +585,7 @@ Apache 2.0 - see [LICENSE](LICENSE) file for details.
 
 ## 💬 Support
 
-- **GitHub Issues**: [github.com/bhanuc/graphzep/issues](https://github.com/bhanuc/graphzep/issues)
+- **GitHub Issues**: [github.com/aexy-io/graphzep/issues](https://github.com/aexy-io/graphzep/issues)
 - **Documentation**: Complete guides in this repository
 - **Examples**: Comprehensive examples in `examples/`
 

@@ -16,9 +16,9 @@ Our developers regularly tag issues with "help wanted" and "good first issue." T
 
 See something that needs fixing? Have an idea for an improvement? You don't need permission to identify problems. The people closest to the pain are often best positioned to describe the solution.
 
-For **feature requests**, tell us the story of what you're trying to accomplish. What are you working on? What's getting in your way? What would make your life easier? Submit these through our [GitHub issue tracker](https://github.com/bhanuc/graphzep/issues) with a "Feature Request" label.
+For **feature requests**, tell us the story of what you're trying to accomplish. What are you working on? What's getting in your way? What would make your life easier? Submit these through our [GitHub issue tracker](https://github.com/aexy-io/graphzep/issues) with a "Feature Request" label.
 
-For **bug reports**, we need enough context to reproduce the problem. Use the [GitHub issue tracker](https://github.com/bhanuc/graphzep/issues) and include:
+For **bug reports**, we need enough context to reproduce the problem. Use the [GitHub issue tracker](https://github.com/aexy-io/graphzep/issues) and include:
 
 - A clear title that summarizes the specific problem
 - What you were trying to do when you encountered the bug
@@ -28,7 +28,7 @@ For **bug reports**, we need enough context to reproduce the problem. Use the [G
 
 ### Share Your Use Cases
 
-Sometimes the most valuable contribution isn't code. If you're using our project in an interesting way, add it to the [examples](https://github.com/bhanuc/graphzep/tree/main/examples) folder. This helps others discover new possibilities and counts as a meaningful contribution. We regularly feature compelling examples in our blog posts and videos - your work might be showcased to the broader community!
+Sometimes the most valuable contribution isn't code. If you're using our project in an interesting way, add it to the [examples](https://github.com/aexy-io/graphzep/tree/main/examples) folder. This helps others discover new possibilities and counts as a meaningful contribution. We regularly feature compelling examples in our blog posts and videos - your work might be showcased to the broader community!
 
 ### Help Others in Discord
 
@@ -50,7 +50,7 @@ Once you've found an issue tagged with "good first issue" or "help wanted," or p
 1. Fork the repository on GitHub.
 2. Clone your fork locally:
    ```
-   git clone https://github.com/bhanuc/graphzep
+   git clone https://github.com/aexy-io/graphzep
    cd graphzep
    ```
 3. Set up your development environment:
@@ -103,7 +103,7 @@ Once you've found an issue tagged with "good first issue" or "help wanted," or p
    ```
    git push origin your-branch-name
    ```
-3. Submit a pull request through the GitHub website to https://github.com/bhanuc/graphzep.
+3. Submit a pull request through the GitHub website to https://github.com/aexy-io/graphzep.
 
 ## Pull Request Guidelines
 
