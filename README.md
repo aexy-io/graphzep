@@ -512,14 +512,13 @@ class Graphzep {
 }
 ```
 
-## 🔄 Migration from Python
-
-This TypeScript version maintains **100% API compatibility** with the original Python version:
+## 🔄 Similarity with Graphiti Python Library
+<our> TypeScript library maintains **100% API compatibility** with the graphiti Python version on base level with improvements needed for zep. Fun Fact- this project started as a clean reimplementation of graphiti in typescript for an agentic workflow automation system we are building at aexy. Special thanks for the graphiti team for making their code open and the team who published the [Zep paper](https://arxiv.org/html/2501.13956v1) :
 
 - **Same HTTP endpoints** - Drop-in replacement for FastAPI server
 - **Compatible data formats** - Works with existing Neo4j databases
 - **Similar configuration** - Environment variables and settings
-- **Preserved functionality** - All features available
+- **Preserved functionality** - All features available with additional features of zep implemented
 
 ### Key Improvements
 
@@ -574,9 +573,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 ## 📖 Documentation
 
-- **[README-TYPESCRIPT.md](README-TYPESCRIPT.md)**: Complete migration guide
 - **[DOCKER.md](DOCKER.md)**: Docker deployment instructions  
-- **[MIGRATION-COMPLETE.md](MIGRATION-COMPLETE.md)**: Technical implementation details
 - **[examples/README.md](examples/README.md)**: Examples overview and tutorials
 
 ## 📄 License

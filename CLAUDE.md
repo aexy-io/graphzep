@@ -262,15 +262,6 @@ docker-compose -f docker-compose.test.yml up --build
 cd mcp_server && docker-compose -f docker-compose.yml up --build
 ```
 
-## Migration from Python
-
-**This codebase maintains 100% API compatibility with the original Python version:**
-
-- All HTTP endpoints preserved with identical request/response formats
-- Same environment variable naming conventions
-- Compatible with existing Neo4j databases
-- Drop-in replacement for Python deployments
-
 ### Key Improvements in TypeScript Version
 
 - **Type Safety**: Compile-time error detection and prevention
