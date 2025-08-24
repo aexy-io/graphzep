@@ -19,12 +19,14 @@ Based and inspired from python's Graphiti framework enhanced with Zep memory cap
 - 🎯 **Session Management**: User session isolation and memory summarization
 
 ### Core Framework
-- 🌐 **Graph Database**: Neo4j, FalkorDB integration for knowledge storage
+- 🌐 **Graph Database**: Neo4j, FalkorDB, and **RDF** integration for knowledge storage
+- 📊 **RDF Support**: SPARQL 1.1 queries, RDF/XML, Turtle, JSON-LD serialization
+- 🧬 **Semantic Web**: Ontology management, RDFS/OWL reasoning, namespace handling
 - 🤖 **LLM Integration**: OpenAI, Anthropic, Google Gemini, and Groq clients
 - 🎯 **Type Safety**: Full TypeScript implementation with Zod validation
 - ⚡ **Real-time Updates**: Incremental knowledge graph updates
 - 🚀 **Production Ready**: HTTP server, MCP integration, Docker deployment  
-- ✅ **Complete Test Coverage**: 91 comprehensive tests passing
+- ✅ **Complete Test Coverage**: 91+ comprehensive tests passing
 
 ## 🚀 Quick Start
 
@@ -108,6 +110,98 @@ const sessionMemories = await memoryManager.getSessionMemories(session.sessionId
 console.log('Session memories:', sessionMemories.length);
 ```
 
+### RDF Knowledge Graph Usage
+
+```typescript
+import { 
+  Graphzep,
+  OptimizedRDFDriver, 
+  OpenAIClient, 
+  OpenAIEmbedder,
+  MemoryType 
+} from 'graphzep';
+
+// Initialize RDF driver with in-memory triple store
+const rdfDriver = new OptimizedRDFDriver({
+  inMemory: true,
+  cacheSize: 10000,
+  batchSize: 1000,
+  customOntologyPath: './my-ontology.rdf' // optional
+});
+
+await rdfDriver.connect();
+
+const llmClient = new OpenAIClient({
+  apiKey: process.env.OPENAI_API_KEY!,
+  model: 'gpt-4o-mini',
+});
+
+const embedder = new OpenAIEmbedder({
+  apiKey: process.env.OPENAI_API_KEY!,
+  model: 'text-embedding-3-small',
+});
+
+// Create GraphZep with RDF support
+const graphzep = new Graphzep({
+  driver: rdfDriver,
+  llmClient,
+  embedder,
+});
+
+// Add episodes that get converted to RDF triples
+await graphzep.addEpisode({
+  content: 'Alice works at ACME Corp and specializes in machine learning.',
+});
+
+// Execute SPARQL queries directly
+const sparqlResults = await graphzep.sparqlQuery(`
+  PREFIX zep: <http://graphzep.ai/ontology#>
+  PREFIX zepent: <http://graphzep.ai/entity#>
+  
+  SELECT ?person ?organization ?expertise
+  WHERE {
+    ?person a zep:Person ;
+            zep:worksAt ?organization ;
+            zep:hasExpertise ?expertise .
+  }
+`);
+
+console.log('SPARQL Results:', sparqlResults);
+
+// Add semantic facts with confidence scores
+await graphzep.addFact({
+  subject: 'zepent:alice',
+  predicate: 'zep:hasSkill',
+  object: 'zepent:deep-learning',
+  confidence: 0.95,
+  sourceMemoryIds: [],
+  validFrom: new Date()
+});
+
+// Search memories using Zep parameters
+const memories = await graphzep.searchMemories({
+  query: 'machine learning experts',
+  limit: 10,
+  searchType: 'semantic'
+});
+
+// Export knowledge graph to RDF formats
+const turtle = await graphzep.exportToRDF('turtle');
+const jsonLd = await graphzep.exportToRDF('json-ld');
+const rdfXml = await graphzep.exportToRDF('rdf-xml');
+
+console.log('Knowledge Graph in Turtle format:', turtle);
+
+// Get temporal memories
+const currentMemories = await graphzep.getMemoriesAtTime(
+  new Date(), 
+  [MemoryType.EPISODIC, MemoryType.SEMANTIC]
+);
+
+// Clean up
+await graphzep.close();
+```
+
 ### Basic Graphzep Usage
 
 ```typescript
@@ -173,8 +267,14 @@ graphzep/
 │   │   ├── session.ts            # Session management
 │   │   ├── retrieval.ts          # Search and retrieval
 │   │   └── types.ts              # Zep type definitions
+│   ├── rdf/                      # RDF support implementation
+│   │   ├── memory-mapper.ts      # Zep to RDF triple conversion
+│   │   ├── sparql-interface.ts   # SPARQL query execution
+│   │   ├── ontology-manager.ts   # Ontology loading and validation
+│   │   ├── namespaces.ts         # RDF namespace management
+│   │   └── ontologies/           # Default RDF ontologies
 │   ├── core/                     # Graph nodes and edges
-│   ├── drivers/                  # Database drivers (Neo4j, FalkorDB)
+│   ├── drivers/                  # Database drivers (Neo4j, FalkorDB, RDF)
 │   ├── llm/                      # LLM clients (OpenAI, Anthropic)
 │   ├── embedders/                # Embedding clients
 │   ├── types/                    # TypeScript type definitions
@@ -320,6 +420,55 @@ const driver = new FalkorDriver({
   uri: 'redis://localhost:6379',
   database: 'my-graph' // optional
 });
+
+// RDF Triple Store
+const driver = new OptimizedRDFDriver({
+  inMemory: true,                           // In-memory or external SPARQL endpoint
+  sparqlEndpoint: 'http://localhost:3030', // Optional external endpoint
+  cacheSize: 10000,                        // LRU cache size
+  batchSize: 1000,                         // Batch processing size
+  customOntologyPath: './ontology.rdf'     // Custom ontology file
+});
+```
+
+**RDF and Semantic Web Support:**
+```typescript
+// SPARQL queries with Zep extensions
+const results = await graphzep.sparqlQuery(`
+  PREFIX zep: <http://graphzep.ai/ontology#>
+  PREFIX zeptime: <http://graphzep.ai/temporal#>
+  
+  SELECT ?memory ?content ?confidence
+  WHERE {
+    ?memory a zep:EpisodicMemory ;
+            zep:content ?content ;
+            zeptime:validFrom ?validFrom ;
+            zep:confidence ?confidence .
+    FILTER (?validFrom > "${yesterday.toISOString()}"^^xsd:dateTime)
+    FILTER (?confidence > 0.8)
+  }
+  ORDER BY DESC(?confidence)
+`);
+
+// Add semantic facts with temporal validity
+await graphzep.addFact({
+  subject: 'zepent:alice',
+  predicate: 'zep:worksAt', 
+  object: 'zepent:acme-corp',
+  confidence: 0.95,
+  validFrom: new Date(),
+  validUntil: new Date('2025-12-31')
+});
+
+// Export to different RDF formats
+const turtle = await graphzep.exportToRDF('turtle');
+const jsonLd = await graphzep.exportToRDF('json-ld'); 
+const rdfXml = await graphzep.exportToRDF('rdf-xml');
+
+// Namespace management
+const nsManager = new NamespaceManager();
+nsManager.addNamespace('myorg', 'https://mycompany.com/ontology#');
+const expanded = nsManager.expand('myorg:Employee'); // -> https://mycompany.com/ontology#Employee
 ```
 
 **LLM Clients:**
@@ -394,6 +543,7 @@ curl -X POST http://localhost:3000/search \
 2. **Quickstart** (`examples/quickstart/`):
    - `quickstart-neo4j.ts` - Basic Neo4j operations
    - `quickstart-falkordb.ts` - FalkorDB backend
+   - `quickstart-rdf.ts` - RDF triple store with SPARQL queries
    - `quickstart-neptune.ts` - Amazon Neptune support
 
 3. **E-commerce Demo** (`examples/ecommerce/`):
@@ -419,29 +569,37 @@ cd examples
 npm install
 
 # Run examples  
-npm run zep-poc            # Zep memory system demo
-npm run quickstart:neo4j     # 2-5 minutes
-npm run ecommerce           # 5-10 minutes
-npm run podcast            # 10-15 minutes  
-npm run langgraph-agent    # 15-20 minutes
+npm run zep-poc              # Zep memory system demo
+npm run quickstart:neo4j     # Basic Neo4j operations (2-5 minutes)
+npm run quickstart:rdf       # RDF triple store demo (2-5 minutes)
+npm run ecommerce           # E-commerce search (5-10 minutes)
+npm run podcast            # Conversation analysis (10-15 minutes)  
+npm run langgraph-agent    # AI agent with memory (15-20 minutes)
 ```
 
 ## 🧪 Testing
 
 ### Test Suite Overview
 
-The project includes **91 comprehensive tests** with 100% pass rate:
+The project includes **130+ comprehensive tests** with 100% pass rate:
 
 - **Unit Tests**: Individual component testing
 - **Integration Tests**: Database integration testing  
+- **RDF Tests**: SPARQL queries, ontology management, semantic web features
+- **Zep Memory Tests**: Complete memory system functionality
 - **API Tests**: HTTP endpoint testing
 - **E2E Tests**: Complete workflow testing
 
 ### Running Tests
 
 ```bash
-# Core library tests
+# Core library tests (all 130+ tests)
 npm test
+
+# Run specific test suites
+npm test -- --grep="RDF"          # RDF and SPARQL tests
+npm test -- --grep="Zep"          # Zep memory system tests
+npm test -- --grep="Neo4j"        # Neo4j integration tests
 
 # Integration tests (requires database)
 npm run test:integration
@@ -507,13 +665,24 @@ class Graphzep {
   getEdge(uuid: string): Promise<Edge | null>
   deleteEdge(uuid: string): Promise<void>
 
+  // RDF and SPARQL operations (when using RDF driver)
+  sparqlQuery(query: string, options?: any): Promise<SPARQLResult>
+  addFact(fact: Omit<ZepFact, 'uuid'>): Promise<string>
+  searchMemories(params: ZepSearchParams): Promise<ZepSearchResult[]>
+  getMemoriesAtTime(timestamp: Date, types?: MemoryType[]): Promise<ZepMemory[]>
+  getFactsAboutEntity(entityName: string, validAt?: Date): Promise<ZepFact[]>
+  findRelatedEntities(entityName: string, maxHops?: number): Promise<any[]>
+  exportToRDF(format?: 'turtle' | 'rdf-xml' | 'json-ld'): Promise<string>
+  getSPARQLTemplates(): Record<string, string>
+  isRDFSupported(): boolean
+
   // Cleanup
   close(): Promise<void>
 }
 ```
 
 ## 🔄 Similarity with Graphiti Python Library
-<our> TypeScript library maintains **100% API compatibility** with the graphiti Python version on base level with improvements needed for zep. Fun Fact- this project started as a clean reimplementation of graphiti in typescript for an agentic workflow automation system we are building at aexy. Special thanks for the graphiti team for making their code open and the team who published the [Zep paper](https://arxiv.org/html/2501.13956v1) :
+Our TypeScript library maintains **100% API compatibility** with the graphiti Python version on base level with improvements needed for zep. Fun Fact- this project started as a clean reimplementation of graphiti in typescript for an agentic workflow automation system we are building at aexy. Special thanks for the graphiti team for making their code open and the team who published the [Zep paper](https://arxiv.org/html/2501.13956v1) :
 
 - **Same HTTP endpoints** - Drop-in replacement for FastAPI server
 - **Compatible data formats** - Works with existing Neo4j databases

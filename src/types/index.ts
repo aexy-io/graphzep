@@ -17,6 +17,7 @@ export enum GraphProvider {
   NEO4J = 'neo4j',
   FALKORDB = 'falkordb',
   NEPTUNE = 'neptune',
+  RDF = 'rdf',
 }
 
 export interface LLMClient {

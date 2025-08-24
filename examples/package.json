@@ -8,6 +8,7 @@
     "zep-poc": "cd zep-poc && npm run start",
     "quickstart:neo4j": "tsx quickstart/quickstart-neo4j.ts",
     "quickstart:falkordb": "tsx quickstart/quickstart-falkordb.ts",
+    "quickstart:rdf": "tsx quickstart/quickstart-rdf.ts",
     "quickstart:neptune": "tsx quickstart/quickstart-neptune.ts",
     "ecommerce": "tsx ecommerce/runner.ts",
     "podcast": "tsx podcast/podcast-runner.ts",

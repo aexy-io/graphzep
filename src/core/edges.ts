@@ -6,7 +6,6 @@ import {
   EpisodicEdge,
   CommunityEdge,
   GraphDriver,
-  GraphProvider,
 } from '../types/index.js';
 import { utcNow } from '../utils/datetime.js';
 

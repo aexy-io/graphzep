@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:time="http://www.w3.org/2006/time#"
+    xmlns:prov="http://www.w3.org/ns/prov#"
+    xmlns:schema="http://schema.org/"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:zep="http://graphzep.ai/ontology#"
+    xmlns:zepmem="http://graphzep.ai/memory#"
+    xmlns:zeptime="http://graphzep.ai/temporal#"
+    xmlns:zepent="http://graphzep.ai/entity#">
+
+  <!-- Ontology Declaration -->
+  <owl:Ontology rdf:about="http://graphzep.ai/ontology">
+    <rdfs:label>GraphZep Default Ontology</rdfs:label>
+    <rdfs:comment>Default ontology for GraphZep temporal knowledge graph memory system</rdfs:comment>
+    <dc:creator>GraphZep Team</dc:creator>
+    <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2024-08-24</dc:date>
+    <owl:versionInfo>1.0.0</owl:versionInfo>
+  </owl:Ontology>
+
+  <!-- ========================================== -->
+  <!-- MEMORY TYPES                               -->
+  <!-- ========================================== -->
+
+  <!-- Base Memory Class -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Memory">
+    <rdfs:label>Memory</rdfs:label>
+    <rdfs:comment>Abstract base class for all memory types in the GraphZep system</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+
+  <!-- Episodic Memory -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#EpisodicMemory">
+    <rdfs:label>Episodic Memory</rdfs:label>
+    <rdfs:comment>Memory of specific events, experiences, and temporal episodes</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <owl:disjointWith rdf:resource="http://graphzep.ai/ontology#SemanticMemory"/>
+    <owl:disjointWith rdf:resource="http://graphzep.ai/ontology#ProceduralMemory"/>
+  </owl:Class>
+
+  <!-- Semantic Memory -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#SemanticMemory">
+    <rdfs:label>Semantic Memory</rdfs:label>
+    <rdfs:comment>Factual knowledge, relationships, and general world knowledge</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <owl:disjointWith rdf:resource="http://graphzep.ai/ontology#EpisodicMemory"/>
+    <owl:disjointWith rdf:resource="http://graphzep.ai/ontology#ProceduralMemory"/>
+  </owl:Class>
+
+  <!-- Procedural Memory -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#ProceduralMemory">
+    <rdfs:label>Procedural Memory</rdfs:label>
+    <rdfs:comment>Knowledge of how to perform tasks, skills, and procedures</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <owl:disjointWith rdf:resource="http://graphzep.ai/ontology#EpisodicMemory"/>
+    <owl:disjointWith rdf:resource="http://graphzep.ai/ontology#SemanticMemory"/>
+  </owl:Class>
+
+  <!-- ========================================== -->
+  <!-- ENTITY TYPES                               -->
+  <!-- ========================================== -->
+
+  <!-- Base Entity -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Entity">
+    <rdfs:label>Entity</rdfs:label>
+    <rdfs:comment>Base class for all entities extracted from memories</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+
+  <!-- Person Entity -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Person">
+    <rdfs:label>Person</rdfs:label>
+    <rdfs:comment>A person or individual</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://graphzep.ai/ontology#Entity"/>
+    <rdfs:subClassOf rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+  </owl:Class>
+
+  <!-- Organization Entity -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Organization">
+    <rdfs:label>Organization</rdfs:label>
+    <rdfs:comment>A company, institution, or organized group</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://graphzep.ai/ontology#Entity"/>
+    <rdfs:subClassOf rdf:resource="http://schema.org/Organization"/>
+  </owl:Class>
+
+  <!-- Location Entity -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Location">
+    <rdfs:label>Location</rdfs:label>
+    <rdfs:comment>A geographical location, place, or venue</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://graphzep.ai/ontology#Entity"/>
+    <rdfs:subClassOf rdf:resource="http://schema.org/Place"/>
+  </owl:Class>
+
+  <!-- Event Entity -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Event">
+    <rdfs:label>Event</rdfs:label>
+    <rdfs:comment>An occurrence, happening, or activity</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://graphzep.ai/ontology#Entity"/>
+    <rdfs:subClassOf rdf:resource="http://schema.org/Event"/>
+  </owl:Class>
+
+  <!-- Concept Entity -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Concept">
+    <rdfs:label>Concept</rdfs:label>
+    <rdfs:comment>An abstract idea, notion, or concept</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://graphzep.ai/ontology#Entity"/>
+  </owl:Class>
+
+  <!-- ========================================== -->
+  <!-- TEMPORAL PROPERTIES                        -->
+  <!-- ========================================== -->
+
+  <!-- Occurred At -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#occurredAt">
+    <rdfs:label>occurred at</rdfs:label>
+    <rdfs:comment>The time when an episodic memory occurred</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#EpisodicMemory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/date"/>
+  </owl:DatatypeProperty>
+
+  <!-- Valid From -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#validFrom">
+    <rdfs:label>valid from</rdfs:label>
+    <rdfs:comment>The time from which a memory or fact is considered valid</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+  </owl:DatatypeProperty>
+
+  <!-- Valid Until -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#validUntil">
+    <rdfs:label>valid until</rdfs:label>
+    <rdfs:comment>The time until which a memory or fact is considered valid</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+  </owl:DatatypeProperty>
+
+  <!-- Created At -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#createdAt">
+    <rdfs:label>created at</rdfs:label>
+    <rdfs:comment>The time when a memory was created in the system</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/created"/>
+  </owl:DatatypeProperty>
+
+  <!-- ========================================== -->
+  <!-- CONTENT AND METADATA PROPERTIES            -->
+  <!-- ========================================== -->
+
+  <!-- Content -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#content">
+    <rdfs:label>content</rdfs:label>
+    <rdfs:comment>The textual content of a memory</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+
+  <!-- Summary -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#summary">
+    <rdfs:label>summary</rdfs:label>
+    <rdfs:comment>A brief summary of the memory content</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+
+  <!-- Confidence -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#confidence">
+    <rdfs:label>confidence</rdfs:label>
+    <rdfs:comment>Confidence score for the memory or extracted information (0.0 to 1.0)</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+  </owl:DatatypeProperty>
+
+  <!-- UUID -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#uuid">
+    <rdfs:label>uuid</rdfs:label>
+    <rdfs:comment>Unique identifier for the memory</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <owl:equivalentProperty rdf:resource="http://purl.org/dc/terms/identifier"/>
+  </owl:DatatypeProperty>
+
+  <!-- Session ID -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#sessionId">
+    <rdfs:label>session ID</rdfs:label>
+    <rdfs:comment>Session identifier for grouping related memories</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+
+  <!-- Episode Type -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#episodeType">
+    <rdfs:label>episode type</rdfs:label>
+    <rdfs:comment>Type of episode (message, text, json, etc.)</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#EpisodicMemory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+
+  <!-- Entity Type -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#entityType">
+    <rdfs:label>entity type</rdfs:label>
+    <rdfs:comment>Type classification for an entity</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Entity"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+
+  <!-- ========================================== -->
+  <!-- RELATIONSHIP PROPERTIES                    -->
+  <!-- ========================================== -->
+
+  <!-- Mentions -->
+  <owl:ObjectProperty rdf:about="http://graphzep.ai/ontology#mentions">
+    <rdfs:label>mentions</rdfs:label>
+    <rdfs:comment>A memory mentions or references an entity</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://graphzep.ai/ontology#Entity"/>
+  </owl:ObjectProperty>
+
+  <!-- Has Relation -->
+  <owl:ObjectProperty rdf:about="http://graphzep.ai/ontology#hasRelation">
+    <rdfs:label>has relation</rdfs:label>
+    <rdfs:comment>A memory contains or describes a relationship</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://graphzep.ai/ontology#Relation"/>
+  </owl:ObjectProperty>
+
+  <!-- Related To -->
+  <owl:ObjectProperty rdf:about="http://graphzep.ai/ontology#relatedTo">
+    <rdfs:label>related to</rdfs:label>
+    <rdfs:comment>General relationship between entities</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Entity"/>
+    <rdfs:range rdf:resource="http://graphzep.ai/ontology#Entity"/>
+    <owl:symmetric rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</owl:symmetric>
+  </owl:ObjectProperty>
+
+  <!-- Derived From -->
+  <owl:ObjectProperty rdf:about="http://graphzep.ai/ontology#derivedFrom">
+    <rdfs:label>derived from</rdfs:label>
+    <rdfs:comment>A semantic memory is derived from an episodic memory</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#SemanticMemory"/>
+    <rdfs:range rdf:resource="http://graphzep.ai/ontology#EpisodicMemory"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasDerivedFrom"/>
+  </owl:ObjectProperty>
+
+  <!-- Part Of Session -->
+  <owl:ObjectProperty rdf:about="http://graphzep.ai/ontology#partOfSession">
+    <rdfs:label>part of session</rdfs:label>
+    <rdfs:comment>A memory is part of a specific session</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://graphzep.ai/ontology#Session"/>
+  </owl:ObjectProperty>
+
+  <!-- ========================================== -->
+  <!-- AUXILIARY CLASSES                          -->
+  <!-- ========================================== -->
+
+  <!-- Session -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Session">
+    <rdfs:label>Session</rdfs:label>
+    <rdfs:comment>A session grouping related memories</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+
+  <!-- Relation -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Relation">
+    <rdfs:label>Relation</rdfs:label>
+    <rdfs:comment>A relationship between entities</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+
+  <!-- Source -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Source">
+    <rdfs:label>Source</rdfs:label>
+    <rdfs:comment>Source of a memory (chat, document, etc.)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+  </owl:Class>
+
+  <!-- ========================================== -->
+  <!-- EMBEDDING AND VECTOR PROPERTIES            -->
+  <!-- ========================================== -->
+
+  <!-- Has Embedding -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#hasEmbedding">
+    <rdfs:label>has embedding</rdfs:label>
+    <rdfs:comment>Reference to vector embedding for semantic search</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+
+  <!-- Embedding Dimension -->
+  <owl:DatatypeProperty rdf:about="http://graphzep.ai/ontology#embeddingDimension">
+    <rdfs:label>embedding dimension</rdfs:label>
+    <rdfs:comment>Dimensionality of the embedding vector</rdfs:comment>
+    <rdfs:domain rdf:resource="http://graphzep.ai/ontology#Memory"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+
+  <!-- ========================================== -->
+  <!-- CARDINALITY CONSTRAINTS                    -->
+  <!-- ========================================== -->
+
+  <!-- Every Memory must have exactly one UUID -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Memory">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://graphzep.ai/ontology#uuid"/>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <!-- Every Memory must have exactly one created timestamp -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Memory">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://graphzep.ai/ontology#createdAt"/>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <!-- Every Memory must have at least one content -->
+  <owl:Class rdf:about="http://graphzep.ai/ontology#Memory">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://graphzep.ai/ontology#content"/>
+        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+</rdf:RDF>
